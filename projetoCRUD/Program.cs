@@ -5,6 +5,7 @@ using System;
 
 class Program
 {
+    //Menu Principal
     static void Main(string[] args)
     {
         Console.WriteLine("\n=== MENU PRINCIPAL ===");
@@ -28,11 +29,13 @@ class Program
                 if (escolha == 1)
                 {
                     Console.WriteLine("\n=== Cadastrando Profissional ===\n");
+                    Cadastrar();
 
                 }
                 else if (escolha == 2)
                 {
                     Console.WriteLine("=== Listando Profissionais ===\n");
+                    Listar();
                 }
                 else if (escolha == 3)
                 {
@@ -58,8 +61,44 @@ class Program
         
 
     }
-    static List<int> Id = new List<int>();
-    static List<string> Nome = new List<string>();
-    static List<string> Especialidade = new List<string>();
-    static List<int> Telefone = new List<int>();
+
+    //Listas
+
+    static List<int> registros = new List<int>();
+    static List<string> nomes = new List<string>();
+    static List<string> especialidades = new List<string>();
+    static List<string> telefones = new List<string>();
+
+    static void Cadastrar()
+    {
+        Console.WriteLine("Digite o Nome:\n");
+        string nome = Console.ReadLine();
+
+        Console.WriteLine("Digite a Especialidade:\n");
+        string esp = Console.ReadLine();
+
+        Console.WriteLine("Digite o Telefone: \n");
+        string tel = Console.ReadLine();
+
+        int reg = registros.Count + 1;
+
+        registros.Add(reg);
+        nomes.Add(nome);
+        especialidades.Add(esp);
+        telefones.Add(tel);
+
+        Console.WriteLine("O Profissional foi cadastrado com sucesso!");
+    }
+
+    static void Listar()
+    {
+        for (int i = 0; i < registros.Count; i++) 
+        {
+            Console.WriteLine($"Registro: {registros[i]}");
+            Console.WriteLine($"Nome: {nomes[i]}");
+            Console.WriteLine($"Especialidade: {especialidades[i]}");
+            Console.WriteLine($"Telefone: {telefones[i]}");
+            
+        }
+    }
 }
