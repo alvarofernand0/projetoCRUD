@@ -45,6 +45,7 @@ class Program
             else if (escolha == 4)
             {
                 Console.WriteLine("===# Excluindo Profissional #===\n");
+                Excluir();
             }
             else if (escolha == 5)
             {
@@ -68,11 +69,12 @@ class Program
     static List<string> especialidades = new List<string>();
     static List<string> telefones = new List<string>();
 
+    // Método Cadastrar
     static void Cadastrar()
     {
         Console.Clear();
-        Console.WriteLine("\n===# Cadastro de Profissional #===");
-        Console.WriteLine("\nDigite o Nome:\n");
+        Console.WriteLine("\n===# Menu de Cadastro #===");
+        Console.WriteLine("\nDigite o Nome do Profissional:\n");
         string nome = Console.ReadLine();
 
         Console.WriteLine("Digite a Especialidade:\n");
@@ -99,10 +101,16 @@ class Program
 
     }
 
+    // Método Listar
     static void Listar()
     {
         Console.Clear();
-        Console.WriteLine("\n===# Listagem de Profissionais #===");
+        Console.WriteLine("\n===# Menu de Listagem #===");
+
+        if (registros.Count < 1)
+        {
+            Console.WriteLine("\nNão há Profissionais Listados...");
+        }
 
         for (int i = 0; i < registros.Count; i++)
         {
@@ -114,14 +122,15 @@ class Program
         }
     }
 
+    //Método Atualizar
     static void Atualizar()
     {
         Console.Clear();
-        Console.WriteLine("\n===# Atualização de Profissional #===\n");
+        Console.WriteLine("\n===# Menu de Atualização #===\n");
 
         if (registros.Count == 0)
         {
-            Console.WriteLine("Não há profissionais cadastrados...");
+            Console.WriteLine("Não há profissionais para atualizar...");
             return;
         }
 
@@ -148,6 +157,51 @@ class Program
             especialidades[indiceLista - 1] = especNova;
             telefones[indiceLista - 1] = telNovo;
         }
+    }
+
+    // Método Excluir
+    static void Excluir()
+    {
+        Console.Clear();
+        Console.WriteLine("\n===# Menu de Exclusão #===\n");
+        if (registros.Count == 0)
+        {
+            Console.WriteLine("\nNão há Profissionais para Excluir...");
+            return;
+        }
+
+        Console.WriteLine("\nDigite o Registro do Profissional que deseja Excluir");
+
+        if (int.TryParse(Console.ReadLine(), out int registro))
+        {
+
+        }
+        else
+        {
+            Console.WriteLine("\nEscolha uma opção válida");
+        }
+
+        bool encontrado = false;
+
+        for (int i = 0; i < registros.Count; i++)
+        {
+            if (registros[i] == registro)
+            {
+                registros.RemoveAt(i);
+                nomes.RemoveAt(i);
+                especialidades.RemoveAt(i);
+
+                Console.WriteLine("Profissional Removido!");
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado)
+        {
+            Console.WriteLine("Profissional não Encontrado...");
+        }
+
     }
 }
 
