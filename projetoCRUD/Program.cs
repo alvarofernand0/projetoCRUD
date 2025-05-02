@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 
 // Listas para guardar os dados dos profissionais
 
@@ -119,17 +121,21 @@ void Listar()
     {
         Console.WriteLine("Não há Profissionais Listados...");
     }
-
-    for (int i = 0; i < ids.Count; i++)         // Percorre do 1° indice até o ultimo que tenha um cadastro
+    else
     {
-        Console.WriteLine("\n------------------------\n");      // O bloco exibe id, nome, espec e tel de cada cadastro
-        Console.WriteLine($"id: {ids[i]}\n");
-        Console.WriteLine($"Nome: {nomes[i]}\n");
-        Console.WriteLine($"Especialidade: {especialidades[i]}\n");
-        Console.WriteLine($"Telefone: {telefones[i]}");
         Console.WriteLine("\n------------------------\n");
 
+        for (int i = 0; i < ids.Count; i++)         // Percorre do 1° indice até o ultimo que tenha um cadastro
+        {
+            Console.WriteLine($"id: {ids[i]}\n");   // O bloco exibe id, nome, espec e tel de cada cadastro
+            Console.WriteLine($"Nome: {nomes[i]}\n");
+            Console.WriteLine($"Especialidade: {especialidades[i]}\n");
+            Console.WriteLine($"Telefone: {telefones[i]}");
+            Console.WriteLine("\n------------------------\n");
+
+        }
     }
+    
 }
 
 // Método Atualizar
@@ -138,37 +144,39 @@ void Atualizar()
     Console.Clear();
     Console.WriteLine("\n===# Menu de Atualização #===\n");
 
-    for (int i = 0; i < ids.Count; i++) 
+    if (ids.Count < 1)       // Caso a Lista de ids não tenha ao menos um id cadastrado retorna uma mensagem
     {
-        Console.WriteLine($"\nid: {i + 1}\nNome: {nomes[i]}");
+        Console.WriteLine("Não há profissionais para atualizar...");
+        return;
     }
 
     Console.WriteLine("Digite o id do profissional que deseja atualizar");
     string entrada = Console.ReadLine();
 
-    if (int.TryParse(entrada, out int indiceLista) && indiceLista >= 1 && indiceLista <= ids.Count) 
-    {
-        int idNovo = indiceLista;
-
-        Console.WriteLine("\nDigite o novo Nome");
+    if (int.TryParse(entrada, out int idxLista) && idxLista >= 1 && idxLista <= ids.Count) // Tenta converter em int, se conseguir
+    {                                                                                      // Guarda em idxLista, Checa se é >=1.
+        Console.WriteLine(" Id encontrado!");                                              // Checa se não passa do Tamanho
+                                                                                           // da lista (<=ids.Count)
+        Console.Write("\nDigite o novo Nome: ");
         string nomeNovo = Console.ReadLine();
 
-        Console.WriteLine("\nDigite a nova Especialidade");
+        Console.Write("\nDigite a nova Especialidade: ");
         string especNova = Console.ReadLine();
 
-        Console.WriteLine("\nDigite o novo Telefone");
+        Console.Write("\nDigite o novo Telefone: ");
         string telNovo = Console.ReadLine();
+        Console.Clear();
+        Console.WriteLine("\nProfissional Atualizado!");
 
-        ids[indiceLista - 1] = idNovo;
-        nomes[indiceLista - 1] = nomeNovo;
-        especialidades[indiceLista - 1] = especNova;
-        telefones[indiceLista - 1] = telNovo;
+        nomes[idxLista - 1] = nomeNovo;                    // Substitui o que está no indice pelo novo valor
+        especialidades[idxLista - 1] = especNova;
+        telefones[idxLista - 1] = telNovo;
     }
-    else if (ids.Count < 1)
+    else
     {
-        Console.WriteLine("Não há profissionais para atualizar...");
-        return;
+        Console.WriteLine("Id não encontrado!"); return;
     }
+    
 }
 
 // Método Excluir
