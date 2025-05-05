@@ -1,4 +1,5 @@
-﻿// Projeto CRUD - Clinica Multi-Profissional
+﻿
+// Projeto CRUD - Clinica Multi-Profissional
 
 using System;
 using System.Collections.Generic;
@@ -19,51 +20,50 @@ MenuPrincipal();
 //Menu Principal
 void MenuPrincipal()
 {
-    while (true) // Esse While garante que o bloco abaixo seja
-                 // executado enquanto não escolher SAIR do programa
-    {
-        Console.Clear();
-        Console.WriteLine("\n=== MENU PRINCIPAL ===\n\n");
-        Console.WriteLine("1 - Cadastrar Profissional\n");
-        Console.WriteLine("2 - Listar Profissionais\n");
-        Console.WriteLine("3 - Atualizar profissional\n");
-        Console.WriteLine("4 - Excluir Profissional\n");
-        Console.WriteLine("5 - SAIR\n");
-        Console.WriteLine("Escolha uma das opções...\n");
+   while (true) // Esse While garante que o bloco abaixo seja
+   {            // executado enquanto não escolher SAIR do programa
+
+      Console.Clear();
+      Console.WriteLine("\n=== MENU PRINCIPAL ===\n\n");
+      Console.WriteLine("1 - Cadastrar Profissional\n");
+      Console.WriteLine("2 - Listar Profissionais\n");
+      Console.WriteLine("3 - Atualizar profissional\n");
+      Console.WriteLine("4 - Excluir Profissional\n");
+      Console.WriteLine("5 - SAIR\n");
+      Console.WriteLine("Escolha uma das opções...\n");
             
-        int escolha;
-        if (!int.TryParse(Console.ReadLine(), out escolha))
-        {
-            Console.WriteLine("Esta não é uma opção válida!");
-        } 
-        else if (escolha == 1)
-        {
-            Cadastrar();
-        }
-        else if (escolha == 2)
-        {
-            Listar();
-        }
-        else if (escolha == 3)
-        {
-            Atualizar();
-        }
-        else if (escolha == 4)
-        {
-            Excluir();
-        }
-        else if (escolha == 5)
-        {
-            Console.Clear();
-            Console.WriteLine("Saindo da Aplicação...");
-            break;             // Suspende o Loop caso escolha SAIR...
-        }
-        else
-        {
-            Console.WriteLine("Você só pode escolher uma das opções!");
-        }
-        Console.ReadKey();
-    }
+      int escolha;
+      if (!int.TryParse(Console.ReadLine(), out escolha))
+      {
+         Console.WriteLine("Esta não é uma opção válida!");
+      } 
+      else if (escolha == 1)
+      {
+          Cadastrar();
+      }
+      else if (escolha == 2)
+      {
+          Listar();
+      }
+      else if (escolha == 3)
+      {
+          Atualizar();
+      }
+      else if (escolha == 4)
+      {
+          Excluir();
+      }
+      else if (escolha == 5)
+      {
+          Console.Clear();
+          Console.WriteLine("Saindo da Aplicação...");
+          break;             // Suspende o Loop caso escolha SAIR...
+      }
+      else
+      {
+          Console.WriteLine("Você só pode escolher uma das opções!");  
+      }   Console.ReadKey();
+   }
 }
 
 
@@ -120,7 +120,8 @@ void Listar()
 
     if (ids.Count < 1)          // Caso a Lista de ids esteja vazia, retorna uma mensagem
     {
-        Console.WriteLine("Não há Profissionais Listados..."); return;
+        Console.WriteLine("Não há Profissionais Listados...");
+        return;
     }
     else
     {
@@ -191,8 +192,6 @@ void Excluir()
     Console.Clear();
     Console.WriteLine("\n===# Menu de Exclusão #===\n");
 
-    int id;
-
     if (ids.Count == 0)
     {
         Console.WriteLine("Não há Profissionais para Excluir...");
@@ -201,10 +200,13 @@ void Excluir()
 
     while(true)
     {
-        if (ids.Count > 0)
+        Console.Write("Digite o id do Profissional que deseja Excluir: ");
+        string entrada = Console.ReadLine();
+
+        if (int.TryParse(entrada, out int id) && id >= 1 && id <= ids.Count)
         {
-            Console.WriteLine("Digite o id do Profissional que deseja Excluir\n");
-            (int.TryParse(Console.ReadLine(), out id))
+            Console.Clear();
+            Console.WriteLine("\nId Encontrado!");
 
             for (int i = 0; i < ids.Count; i++)
             {
@@ -214,19 +216,14 @@ void Excluir()
                     nomes.RemoveAt(i);
                     especialidades.RemoveAt(i);
 
-                    Console.WriteLine("Profissional Removido!");
-                    break;
+                    Console.WriteLine("\nProfissional Removido!\n");
+                    return;
                 }
             }
         }
-        else if 
+        else 
         {
-            Console.WriteLine("Escolha uma opção válida!");
-            return;
-        }
-        else
-        {
-            
+            Console.WriteLine("\nEscolha uma opção válida!\n");
         }
     }
 }
