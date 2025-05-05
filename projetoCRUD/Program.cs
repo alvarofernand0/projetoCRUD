@@ -12,10 +12,7 @@ List<string> nomes = new List<string>();
 List<string> especialidades = new List<string>();
 List<string> telefones = new List<string>();
 
-
-
 MenuPrincipal();
-
 
 //Menu Principal
 void MenuPrincipal()
@@ -31,27 +28,31 @@ void MenuPrincipal()
       Console.WriteLine("4 - Excluir Profissional\n");
       Console.WriteLine("5 - SAIR\n");
       Console.WriteLine("Escolha uma das opções...\n");
-            
+      
       int escolha;
       if (!int.TryParse(Console.ReadLine(), out escolha))
       {
          Console.WriteLine("Esta não é uma opção válida!");
-      } 
+      }
       else if (escolha == 1)
       {
           Cadastrar();
+          Console.ReadKey();
       }
       else if (escolha == 2)
       {
           Listar();
+          Console.ReadKey();
       }
       else if (escolha == 3)
       {
           Atualizar();
+          Console.ReadKey();
       }
       else if (escolha == 4)
       {
           Excluir();
+          Console.ReadKey();
       }
       else if (escolha == 5)
       {
@@ -62,10 +63,9 @@ void MenuPrincipal()
       else
       {
           Console.WriteLine("Você só pode escolher uma das opções!");  
-      }   Console.ReadKey();
+      }   
    }
 }
-
 
 // Método Cadastrar
 void Cadastrar()
@@ -89,27 +89,7 @@ void Cadastrar()
     telefones.Add(telefone);              // Adiciona o que está na variável 'telefone' à lista 'telefones'
 
     Console.Clear();
-    Console.WriteLine("\nCadastro Concluído!\n" +
-    "Tecle |C| para novo Cadastro ou |Enter| para voltar ao Menu");
-
-    while(true)                                     //Roda o bloco em Loop
-    {
-        var tecla = Console.ReadKey(true).Key;      //Guarda a tecla pressionada
-
-        if (tecla == ConsoleKey.C)                  //Pede para teclar 'C'
-        {
-            Cadastrar();                            //Chama o menu de cadastro
-        }
-        else if (tecla == ConsoleKey.Enter)         //Pede para teclar 'Enter'
-        {
-            MenuPrincipal();                        //Chama o menu principal
-            break;
-        }
-        else 
-        {
-            Console.WriteLine("Opção inválida!");
-        }
-    }
+    Console.WriteLine("\nCadastro Concluído!\n");
 }
 
 // Método Listar
@@ -198,26 +178,35 @@ void Excluir()
         return;
     }
 
-    while(true)
+    /* Usei uma variável de controle para conseguir sair do laço interno,
+       caso contrário, sairia apenas do for */
+
+    bool sair = false;
+    while (!sair)
     {
         Console.Write("Digite o id do Profissional que deseja Excluir: ");
         string entrada = Console.ReadLine();
 
+        // If principal converte para int, verifica se >= 1. Verifica se está dentro dos indices da lista. Caso algo falhe, cai no else.
         if (int.TryParse(entrada, out int id) && id >= 1 && id <= ids.Count)
         {
             Console.Clear();
             Console.WriteLine("\nId Encontrado!");
 
-            for (int i = 0; i < ids.Count; i++)
+            for (int i = 0; i < ids.Count; i++) // Percorre a lista ids do início ao fim, enquanto i for menor que o n° total de itens da lista ids
             {
-                if (ids[i] == id)
+                if (ids[i] == id) // Verifica se o id atual é IGUAL ao id que quer excluir
                 {
+                    // Remove o item de cada lista naquele indice
+
                     ids.RemoveAt(i);
                     nomes.RemoveAt(i);
                     especialidades.RemoveAt(i);
+                    telefones.RemoveAt(i);
 
                     Console.WriteLine("\nProfissional Removido!\n");
-                    return;
+                    sair = true;
+                    break;
                 }
             }
         }
