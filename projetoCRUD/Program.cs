@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 
 // Listas para guardar os dados dos profissionais
@@ -21,7 +20,7 @@ MenuPrincipal();
 void MenuPrincipal()
 {
     while (true) // Esse While garante que o bloco abaixo seja
-                    // executado enquanto não escolher SAIR do programa
+                 // executado enquanto não escolher SAIR do programa
     {
         Console.Clear();
         Console.WriteLine("\n=== MENU PRINCIPAL ===\n\n");
@@ -30,12 +29,14 @@ void MenuPrincipal()
         Console.WriteLine("3 - Atualizar profissional\n");
         Console.WriteLine("4 - Excluir Profissional\n");
         Console.WriteLine("5 - SAIR\n");
-        Console.WriteLine("Escolha uma das opções...");
+        Console.WriteLine("Escolha uma das opções...\n");
             
         int escolha;
-        if (int.TryParse(Console.ReadLine(), out escolha)) // Caso a conversão retorne False(0)
-                                                            // Solicita para digitar opçao válida                                                   
-        if (escolha == 1)
+        if (!int.TryParse(Console.ReadLine(), out escolha))
+        {
+            Console.WriteLine("Esta não é uma opção válida!");
+        } 
+        else if (escolha == 1)
         {
             Cadastrar();
         }
@@ -59,7 +60,7 @@ void MenuPrincipal()
         }
         else
         {
-            Console.WriteLine("Escolha uma opção válida...");
+            Console.WriteLine("Você só pode escolher uma das opções!");
         }
         Console.ReadKey();
     }
@@ -70,17 +71,17 @@ void MenuPrincipal()
 void Cadastrar()
 {
     Console.Clear();
-    Console.WriteLine("\n===# Menu de Cadastro #===");
-    Console.Write("\nDigite o Nome do Profissional: ");
+    Console.WriteLine("\n===# Menu de Cadastro #===\n");
+    Console.Write("Digite o Nome do Profissional: ");
     string nome = Console.ReadLine();
 
-    Console.WriteLine("\nDigite a Especialidade:\n");
+    Console.Write("\nDigite a Especialidade: ");
     string especialidade = Console.ReadLine();
 
-    Console.WriteLine("Digite o Telefone:\n");
+    Console.Write("\nDigite o Telefone: ");
     string telefone = Console.ReadLine();
 
-    int id = ids.Count + 1;               // Atribui 1 cadastro(id) a cada nova interação. O id é usado para rastrear cada cadastro
+    int id = ids.Count + 1;               // Atribui 1 cadastro(id) a cada nova interação. O id é usado para rastrear um cadastro
 
     ids.Add(id);                          // Adiciona o que está na variável 'id' à lista 'ids'
     nomes.Add(nome);                      // Adiciona o que está na variável 'nome' à lista 'nomes'
@@ -117,9 +118,9 @@ void Listar()
     Console.Clear();
     Console.WriteLine("\n===# Menu de Listagem #===\n");
 
-    if (ids.Count < 1)                  // Caso a Lista de ids não tenha ao menos um id cadastrado retorna uma mensagem
+    if (ids.Count < 1)          // Caso a Lista de ids esteja vazia, retorna uma mensagem
     {
-        Console.WriteLine("Não há Profissionais Listados...");
+        Console.WriteLine("Não há Profissionais Listados..."); return;
     }
     else
     {
@@ -135,7 +136,6 @@ void Listar()
 
         }
     }
-    
 }
 
 // Método Atualizar
@@ -144,39 +144,45 @@ void Atualizar()
     Console.Clear();
     Console.WriteLine("\n===# Menu de Atualização #===\n");
 
-    if (ids.Count < 1)       // Caso a Lista de ids não tenha ao menos um id cadastrado retorna uma mensagem
+    if (ids.Count < 1)       // Caso a Lista de ids esteja vazia, retorna uma mensagem
     {
         Console.WriteLine("Não há profissionais para atualizar...");
         return;
     }
 
-    Console.WriteLine("Digite o id do profissional que deseja atualizar");
-    string entrada = Console.ReadLine();
-
-    if (int.TryParse(entrada, out int idxLista) && idxLista >= 1 && idxLista <= ids.Count) // Tenta converter em int, se conseguir
-    {                                                                                      // Guarda em idxLista, Checa se é >=1.
-        Console.WriteLine(" Id encontrado!");                                              // Checa se não passa do Tamanho
-                                                                                           // da lista (<=ids.Count)
-        Console.Write("\nDigite o novo Nome: ");
-        string nomeNovo = Console.ReadLine();
-
-        Console.Write("\nDigite a nova Especialidade: ");
-        string especNova = Console.ReadLine();
-
-        Console.Write("\nDigite o novo Telefone: ");
-        string telNovo = Console.ReadLine();
-        Console.Clear();
-        Console.WriteLine("\nProfissional Atualizado!");
-
-        nomes[idxLista - 1] = nomeNovo;                    // Substitui o que está no indice pelo novo valor
-        especialidades[idxLista - 1] = especNova;
-        telefones[idxLista - 1] = telNovo;
-    }
-    else
+    while (true)
     {
-        Console.WriteLine("Id não encontrado!"); return;
-    }
-    
+        Console.Write("Digite o id do profissional que deseja atualizar: ");
+        string entrada = Console.ReadLine();
+
+        if (int.TryParse(entrada, out int idxLista) && idxLista >= 1 && idxLista <= ids.Count) // Tenta converter em int, se conseguir
+        {                                                                                      // Guarda em idxLista, Checa se é >=1.
+            Console.WriteLine("\nId encontrado! Prosseguindo...\n");                           // Checa se não passa do Tamanho
+                                                                                               // da lista (<=ids.Count)
+            Console.Write("Digite o novo Nome: ");
+            string nomeNovo = Console.ReadLine();
+
+            Console.Write("\nDigite a nova Especialidade: ");
+            string especNova = Console.ReadLine();
+
+            Console.Write("\nDigite o novo Telefone: ");
+            string telNovo = Console.ReadLine();
+
+            nomes[idxLista - 1] = nomeNovo;              // Substitui o que está na posição pelo novo valor
+            especialidades[idxLista - 1] = especNova;
+            telefones[idxLista - 1] = telNovo;
+
+            Console.Clear();
+            Console.WriteLine("\nProfissional Atualizado!");
+            break;   
+        }
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("\nId não encontrado!\n");
+            
+        }  
+    }                                                                                         
 }
 
 // Método Excluir
@@ -185,43 +191,43 @@ void Excluir()
     Console.Clear();
     Console.WriteLine("\n===# Menu de Exclusão #===\n");
 
+    int id;
+
     if (ids.Count == 0)
     {
-        Console.WriteLine("\nNão há Profissionais para Excluir...");
+        Console.WriteLine("Não há Profissionais para Excluir...");
         return;
     }
 
-    Console.WriteLine("\nDigite o id do Profissional que deseja Excluir");
-
-    if (int.TryParse(Console.ReadLine(), out int id))
+    while(true)
     {
-
-    }
-    else
-    {
-        Console.WriteLine("\nEscolha uma opção válida");
-    }
-
-    bool encontrado = false;
-
-    for (int i = 0; i < ids.Count; i++)
-    {
-        if (ids[i] == id)
+        if (ids.Count > 0)
         {
-            ids.RemoveAt(i);
-            nomes.RemoveAt(i);
-            especialidades.RemoveAt(i);
+            Console.WriteLine("Digite o id do Profissional que deseja Excluir\n");
+            (int.TryParse(Console.ReadLine(), out id))
 
-            Console.WriteLine("Profissional Removido!");
-            encontrado = true;
-            break;
+            for (int i = 0; i < ids.Count; i++)
+            {
+                if (ids[i] == id)
+                {
+                    ids.RemoveAt(i);
+                    nomes.RemoveAt(i);
+                    especialidades.RemoveAt(i);
+
+                    Console.WriteLine("Profissional Removido!");
+                    break;
+                }
+            }
+        }
+        else if 
+        {
+            Console.WriteLine("Escolha uma opção válida!");
+            return;
+        }
+        else
+        {
+            
         }
     }
-
-    if (!encontrado)
-    {
-        Console.WriteLine("Profissional não Encontrado...");
-    }
-
 }
 
