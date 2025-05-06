@@ -161,7 +161,6 @@ void Atualizar()
         {
             Console.Clear();
             Console.WriteLine("\nId não encontrado!\n");
-            
         }  
     }                                                                                         
 }
@@ -178,8 +177,8 @@ void Excluir()
         return;
     }
 
-    /* Usei uma variável de controle para conseguir sair do laço interno,
-       caso contrário, sairia apenas do for */
+    /* Usei uma variável de controle para conseguir sair do while,
+       caso contrário, sairia apenas do for e continuaria o loop infinitamente*/
 
     bool sair = false;
     while (!sair)
@@ -187,19 +186,18 @@ void Excluir()
         Console.Write("Digite o id do Profissional que deseja Excluir: ");
         string entrada = Console.ReadLine();
 
-        // If principal converte para int, verifica se >= 1. Verifica se está dentro dos indices da lista. Caso algo falhe, cai no else.
-        if (int.TryParse(entrada, out int id) && id >= 1 && id <= ids.Count)
+        /* If principal converte para int, Verifica se existe na lista o ID que foi digitado;
+        Caso algo falhe, cai no else.*/
+        if (int.TryParse(entrada, out int id) && ids.Contains(id))
         {
             Console.Clear();
             Console.WriteLine("\nId Encontrado!");
 
-            for (int i = 0; i < ids.Count; i++) // Percorre a lista ids do início ao fim, enquanto i for menor que o n° total de itens da lista ids
+            for (int i = 0; i < ids.Count; i++) // Percorre a lista ids do início ao fim, enquanto i for menor que o n° total de itens da lista
             {
                 if (ids[i] == id) // Verifica se o id atual é IGUAL ao id que quer excluir
                 {
-                    // Remove o item de cada lista naquele indice
-
-                    ids.RemoveAt(i);
+                    ids.RemoveAt(i);           // Remove o item de cada lista naquele indice
                     nomes.RemoveAt(i);
                     especialidades.RemoveAt(i);
                     telefones.RemoveAt(i);
@@ -212,8 +210,22 @@ void Excluir()
         }
         else 
         {
-            Console.WriteLine("\nEscolha uma opção válida!\n");
+            Console.WriteLine("\nOpção errada ou Id inválido!\n");
         }
     }
 }
 
+//void Verificacao()
+//{
+    
+//    Console.WriteLine("\nDeseja realmente continuar? [Digite SIM ou NAO]");
+//    string verificar = Console.ReadLine();
+  
+//    {
+//        Console.WriteLine("Digite SIM ou NAO!");
+//    }
+//    else
+//    {
+//        Console.WriteLine();
+//    }
+//}
