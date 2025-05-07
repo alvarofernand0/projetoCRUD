@@ -33,6 +33,7 @@ void MenuPrincipal()
       if (!int.TryParse(Console.ReadLine(), out escolha))
       {
          Console.WriteLine("Esta não é uma opção válida!");
+         Console.ReadKey();
       }
       else if (escolha == 1)
       {
@@ -62,7 +63,8 @@ void MenuPrincipal()
       }
       else
       {
-          Console.WriteLine("Você só pode escolher uma das opções!");  
+          Console.WriteLine("Você só pode escolher uma das opções!");
+          Console.ReadKey();
       }   
    }
 }
